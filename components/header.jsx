@@ -3,6 +3,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from "./ui/button";
 import { FileTextIcon, GraduationCap, LayoutDashboard, PenBoxIcon, StarsIcon } from 'lucide-react';
+import { checkUser } from '../lib/checkUser';
+
 import { ChevronDown } from 'lucide-react';
 import {
   DropdownMenu,
@@ -13,9 +15,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-const Header = () => {
+const Header = async () => {
+  await checkUser();
+
   return (
-    <header className='fixed top-0 w-full border-b bg-background/80 backdrop-blur-md z-50
+    <header className='fi xed top-0 w-full border-b bg-background/80 backdrop-blur-md z-50
     supports=[backdrop-filter]:bg-background/80'>
       <nav className='container mx-auto px-4 h-16 flex items-center justify-between'>
         <Link href='/'>

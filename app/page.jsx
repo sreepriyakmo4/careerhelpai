@@ -5,6 +5,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { features } from "@/data/features";
 import { howItWorks } from "@/data/howItWorks";
 import { testimonial } from "@/data/testimonial";
+import { faqs } from "@/data/faqs";
+import { Accordion } from "@/components/ui/accordion";
+import { AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 
 export default function Home() {
@@ -86,43 +91,116 @@ export default function Home() {
 
 
 
+<section className="w-full py-12 md:py-24 bg-muted/50">
+  <div className="container mx-auto px-4 md:px-6">
+    <h2 className="text-3xl font-bold tracking-tighter text-center mb-12">
+      What Our Users Say
+    </h2>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      {testimonial.map((testimonial, index) => {
+        return (
+          <Card key={index} className="bg-background">
+            <CardContent className="pt-6">
+              <div className="flex flex-col space-y-6">
+                <div className="flex items-center space-x-4">
+                  <div className="relative h-12 w-12 flex-shrink-0">
+                    <Image 
+                      width={40}
+                      height={40}
+                      src={testimonial.image}
+                      alt={testimonial.name}
+                      className="rounded-full object-cover border-2 border-primary/20"
+                    />
+                  </div>
+                  <div>
+                    <p className="font-semibold">{testimonial.author}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {testimonial.role}
+                    </p>
+                    <p className="text-sm text-primary">
+                      {testimonial.company}
+                    </p>
+                  </div>
+                </div>
+                <blockquote className="relative">
+                  <p className="text-muted-foreground italic">
+                    <span className="text-3xl text-primary absolute -top-4 -left-2">
+                      &quot;
+                    </span>
+                    {testimonial.quote}
+                    <span className="text-3xl text-primary absolute -bottom-4">
+                      &quot;
+                    </span>
+                  </p>
+                </blockquote>
+              </div>
+            </CardContent>
+          </Card>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
 
 
 
 
     <section className="w-full py-12 md:py-24 bg-background">
       <div className="container mx-auto px-4 md:px-6">
-        <h2 className="text-3xl font-bold tracking-tighter text-center mb-12">
-      What Our Users Say</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-          {testimonial.map((testimonial,index)=>{
-          return (
-            <Card key={index}
-            className="bg-background"
-            >
-              <CardContent className="pt-6">
-                <div>
-                  <div>
-                    <div><Image 
-                    width={40}
-                    height={40}
-                    src={testimonial.image}
-                    alt={testimonial.name}
-
-                    />
-                    </div>
-                    <div></div>
-                  </div>
-                  <blockquote>
-
-                  </blockquote>
-                </div>
-              </CardContent>
-            </Card>
-          )
-        })}</div>
+        <div className="text-center max-w-3xl mx-auto mb-12">
+        <h2 className="text-3xl font-bold mb-4">
+          Frequently Asked Questions
+        </h2>
+        <p className="text-muted-foreground">
+        Find Answers to common questions about our platform
+        </p>
+        </div>
+        <div className="max-w-6xl mx-auto">
+          <Accordion type="single" collapsible className="w-full">
+          {faqs.map((faqs, index)=>{
+          return(
+            <AccordionItem key={index} value={`item-${index}`}>
+          <AccordionTrigger>{faqs.question}</AccordionTrigger>
+            <AccordionContent>
+          {faqs.answer}
+          </AccordionContent>
+          </AccordionItem>
+          );
+        })}
+          </Accordion>
+        </div>
       </div>
     </section>
+
+
+ <section className="w-full bg-black">
+  <div className="mx-auto py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-black via-gray-900 to-black rounded-lg">
+    <div className="flex flex-col items-center justify-center text-center space-y-6 max-w-3xl mx-auto">
+      <h2 className="text-white text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
+        Ready to Accelerate Your Career?
+      </h2>
+      <p className="text-gray-300 md:text-xl max-w-xl">
+        Join thousands of professionals who have transformed their careers with AI-powered guidance.
+      </p>
+      <Link href="/dashboard" passHref>
+        <Button
+          size="lg"
+          variant="secondary"
+          className="h-11 mt-5 animate-bounce"
+        >
+          Start Your Journey Today <ArrowRight className="ml-2 h-4 w-4" />
+        </Button>
+      </Link>
+    </div>
+  </div>
+</section>
+
 
 
 
