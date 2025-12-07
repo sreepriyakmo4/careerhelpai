@@ -1,11 +1,11 @@
 "use server";
-
 import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+// CHANGED: gemini-1.5-flash to gemini-pro
+const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
 /**
  * Ask Gemini to return ONLY Prisma-valid enums (uppercase).

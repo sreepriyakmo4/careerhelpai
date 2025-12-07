@@ -105,12 +105,13 @@ export default function Home() {
                 <div className="flex items-center space-x-4">
                   <div className="relative h-12 w-12 flex-shrink-0">
                     <Image 
-                      width={40}
-                      height={40}
-                      src={testimonial.image}
-                      alt={testimonial.name}
-                      className="rounded-full object-cover border-2 border-primary/20"
-                    />
+  width={40}
+  height={40}
+  src={testimonial.image}
+  alt={`Profile picture of ${testimonial.name}`}
+  // or if testimonial doesn't have a name field:
+  alt="User profile picture"
+/>
                   </div>
                   <div>
                     <p className="font-semibold">{testimonial.author}</p>

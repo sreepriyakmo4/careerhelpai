@@ -1,36 +1,39 @@
-import React from 'react'
-import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { generateQuiz } from '@/lib/api';
-import useFetch from '@/lib/hooks/use-fetch';
-import { BarLoader } from 'react-spinners';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Label } from '@/components/ui/label';  
-import { toast } from 'sonner';
-import { saveQuizResult } from '@/lib/api';
+"use client";
 
-const Quiz = () => {
-    const [currentQuestion, setCurrentQuestion] = useState(0);
-    const [answers, setAnswers] = useState([]);
-    const [showExplanation, setShowExplanation] = useState(false);
+import { useState, useEffect } from "react";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { generateQuiz, saveQuizResult } from "@/actions/interview";
+import QuizResult from "./quiz-result";
+import useFetch from "@/hooks/use-fetch";
+import { BarLoader } from "react-spinners";
 
+export default function Quiz() {
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [answers, setAnswers] = useState([]);
+  const [showExplanation, setShowExplanation] = useState(false);
 
-    const {
+  const {
     loading: generatingQuiz,
     fn: generateQuizFn,
     data: quizData,
   } = useFetch(generateQuiz);
 
-   const {
+  const {
     loading: savingResult,
     fn: saveQuizResultFn,
     data: resultData,
     setData: setResultData,
   } = useFetch(saveQuizResult);
-
-  console.log(resultData);
-
 
   useEffect(() => {
     if (quizData) {
@@ -43,7 +46,7 @@ const Quiz = () => {
     newAnswers[currentQuestion] = answer;
     setAnswers(newAnswers);
   };
-  
+
   const handleNext = () => {
     if (currentQuestion < quizData.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
@@ -52,6 +55,7 @@ const Quiz = () => {
       finishQuiz();
     }
   };
+
   const calculateScore = () => {
     let correct = 0;
     answers.forEach((answer, index) => {
@@ -72,11 +76,26 @@ const Quiz = () => {
     }
   };
 
+  const startNewQuiz = () => {
+    setCurrentQuestion(0);
+    setAnswers([]);
+    setShowExplanation(false);
+    generateQuizFn();
+    setResultData(null);
+  };
+
   if (generatingQuiz) {
-    return <BarLoader className="mt-4" width= {"100%"} color='gray' />;
-        }
+    return <BarLoader className="mt-4" width={"100%"} color="gray" />;
+  }
 
-
+  // Show results if quiz is completed
+  if (resultData) {
+    return (
+      <div className="mx-2">
+        <QuizResult result={resultData} onStartNew={startNewQuiz} />
+      </div>
+    );
+  }
 
   if (!quizData) {
     return (
@@ -101,8 +120,8 @@ const Quiz = () => {
 
   const question = quizData[currentQuestion];
 
-  return  (
-     <Card className="mx-2">
+  return (
+    <Card className="mx-2">
       <CardHeader>
         <CardTitle>
           Question {currentQuestion + 1} of {quizData.length}
@@ -154,9 +173,5 @@ const Quiz = () => {
         </Button>
       </CardFooter>
     </Card>
-    );
-
-
-};
-
-export default Quiz;
+  );
+}
