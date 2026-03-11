@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import React from 'react'
 import StatsCard from './_components/stats-card'  
 import { getAssessments } from '@/actions/interview'
